@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Address
 
 
 class OrderItemInline(admin.TabularInline):
@@ -13,7 +13,15 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('client', 'confirmed', 'canceled', 'created_at')
-    list_filter = ('confirmed', 'canceled')
+    list_display = ('client', 'status', 'address', 'created_at')
+    list_filter = ('status', )
 
     inlines = [OrderItemInline]
+
+    def get_readonly_fields(self, request, obj=None):
+        return 'address', 'status'
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('city', 'street', 'house_number', 'apartment_number')

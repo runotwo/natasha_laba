@@ -10,6 +10,12 @@ class OrderItemInline(admin.TabularInline):
     verbose_name = "Пункт заказа"
     verbose_name_plural = "Пункты заказа"
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

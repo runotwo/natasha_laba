@@ -1,0 +1,31 @@
+.category{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: rgba(0,0,0,.8);
+    min-height: 30px;
+    display: block;
+    border: 1px solid rgba(0,0,0,.3);
+    border-bottom: 0;
+    font-size: 14px;
+}
+.category:hover{
+    color: rgba(0,0,0,.8);
+}
+.category:last-child{
+    border-bottom: 1px solid rgba(0,0,0,.3);
+}
+
+.good{
+    display: inline-block;
+    height: 220px;
+    margin-top: 10px;
+    border: 1px solid rgba(0,0,0,.3);
+}
+
+.good .image{
+    height: 170px;
+}
+
+.main .row{
+    margin: 0;
+}

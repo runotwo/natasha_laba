@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <div class="row">
+        <div class="col-3">
+            {% for category in categories %}
+                <a href="/goods?category={{ category.id }}" class="category pl-2">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="col-9 main">
+            <a href="goods/1" class="banner">
+                <img src="https://via.placeholder.com/825x200" width="825px" height="200px"
+                     class="d-inline-block align-top" alt="">
+            </a>
+            <br><br>
+            <p class="h4">Хиты продаж</p>
+            <div class="row">
+                {% for good in goods %}
+                    <a href="goods/{{ good.id }}" class="good col-3">
+                        <img class="col image" src="{{ good.image.url }}" alt="">
+                        <div class="col title"> {{ good.name }}</div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

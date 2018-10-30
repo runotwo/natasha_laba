@@ -36,7 +36,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('-created_at',)
+        ordering = ('created_at',)
 
     def get_total_price(self):
         return self.orderitem_set.all().aggregate(price=models.Sum(models.F('good__price') * models.F('count'),
@@ -55,4 +55,8 @@ class OrderItem(models.Model):
         if self.count > 0:
             super(OrderItem, self).save(*args, **kwargs)
         else:
+            super(OrderItem, self).save(*args, **kwargs)
             self.delete()
+
+    def __str__(self):
+        return self.good.name

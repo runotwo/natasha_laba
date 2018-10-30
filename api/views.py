@@ -5,6 +5,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
+from django.core.paginator import Paginator
 
 from goods.models import Good
 from orders.models import Order, OrderItem
@@ -17,7 +18,8 @@ class GoodView(ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Good.objects.all()
-        serializer = self.get_serializer(queryset, many=True)
+        paginator = Paginator(queryset, 12)
+        serializer = self.get_serializer(paginator.page(1), many=True)
         return Response(serializer.data)
 
 
@@ -63,7 +65,7 @@ class GetToken(ObtainAuthToken):
         return Response({'token': token.key})
 
 
-class OrderViev(ReadOnlyModelViewSet):
+class OrderView(ReadOnlyModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -76,13 +78,8 @@ class OrderViev(ReadOnlyModelViewSet):
         serializer = self.get_serializer(last_order)
         return Response(serializer.data)
 
-    def list(self, request, *args, **kwargs):
-        last_order = Order.objects.filter(client=request.user)
-        serializer = self.get_serializer(last_order, many=True)
-        return Response(serializer.data)
 
-
-class OrdersViev(ReadOnlyModelViewSet):
+class OrdersView(ReadOnlyModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (authentication.TokenAuthentication,)
@@ -107,11 +104,6 @@ class CartView(mixins.RetrieveModelMixin,
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (authentication.TokenAuthentication,)
 
-    def retrieve(self, request, *args, **kwargs):
-        last_order = Order.objects.filter(client=request.user).last()
-        if not last_order or last_order.status != 'created':
-            last_order = Order.objects.create(client=request.user)
-        return Response(self.get_serializer(last_order).data)
 
     def post(self, request):
         serializer = AddCartSerializer(data=request.data)
@@ -132,7 +124,7 @@ class CartView(mixins.RetrieveModelMixin,
         serializer = AddCartSerializer(data={'good_id': pk})
         if not serializer.is_valid():
             return Response(data={'status': 'Error', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        good = Good.objects.get(id=serializer.data['id'])
+        good = Good.objects.get(id=serializer.data['good_id'])
         last_order = Order.objects.filter(client=request.user).last()
         if not last_order or last_order.status != 'created':
             return Response(data={'status': 'Error', 'errors': {'not_found': ['Не найден открытый заказ']}},

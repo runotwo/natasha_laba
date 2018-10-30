@@ -24,9 +24,6 @@ class OrderAdmin(admin.ModelAdmin):
 
     inlines = [OrderItemInline]
 
-    def get_readonly_fields(self, request, obj=None):
-        return 'address', 'status'
-
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):

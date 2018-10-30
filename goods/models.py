@@ -34,7 +34,7 @@ class Good(models.Model):
         verbose_name_plural = 'Товары'
 
     def __unicode__(self):
-        return self.image.path
+        return self.name
 
     def __str__(self):
-        return self.image.path
+        return self.name

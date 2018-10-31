@@ -15,14 +15,16 @@
             </a>
             <br><br>
             <p class="h4">Хиты продаж</p>
-            <div class="row">
-                {% for good in goods %}
-                    <a href="goods/{{ good.id }}" class="good col-3">
-                        <img class="col image" src="{{ good.image.url }}" alt="">
-                        <div class="col title"> {{ good.name }}</div>
-                    </a>
-                {% endfor %}
-            </div>
+            {% for row in rows %}
+                <div class="row">
+                    {% for good in row %}
+                        <a href="/goods/{{ good.id }}" class="good col-3">
+                            <img class="col image" src="{{ good.image.url }}" alt="">
+                            <div class="col title"> {{ good.name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

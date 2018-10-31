@@ -69,7 +69,7 @@ class OrderView(ReadOnlyModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.SessionAuthentication,)
 
     def retrieve(self, request, *args, **kwargs):
         last_order = Order.objects.filter(client=request.user).last()
@@ -82,7 +82,7 @@ class OrderView(ReadOnlyModelViewSet):
 class OrdersView(ReadOnlyModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.SessionAuthentication,)
 
     def retrieve(self, request, *args, **kwargs):
         instance = Order.objects.filter(client=request.user, id=kwargs.get('pk')).last()
@@ -102,7 +102,7 @@ class CartView(mixins.RetrieveModelMixin,
                GenericViewSet):
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.SessionAuthentication,)
 
 
     def post(self, request):

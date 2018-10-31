@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <div class="row">
+        <div class="col-5">
+            <img class="col image" src="{{ good.image.url }}" alt="">
+        </div>
+        <div class="col-7 main">
+            <h4>{{ good.name }}</h4>
+            <span>Сейчас в корзине: <span id="now_count">
+                {% if now_item %}
+                    {{ now_item.count }}
+                {% else %}
+                    0
+                {% endif %}</span></span><br>
+            {% if good.count %}
+                <button onclick="addToCart({{ good.id }})">Добавить в корзину</button>
+            {% else %}
+                <span>Нет в наличии</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

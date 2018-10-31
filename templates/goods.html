@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <div class="row">
+        <div class="col-3">
+            {% for category in categories %}
+                <a href="/goods?category={{ category.id }}" class="category pl-2">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="col-9 main">
+            {% for row in rows %}
+                <div class="row">
+                    {% for good in row %}
+                        <a href="/goods/{{ good.id }}" class="good col-3">
+                            <img class="col image" src="{{ good.image.url }}" alt="">
+                            <div class="col title"> {{ good.name }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {% if next %}
+                <button>Показать еще</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

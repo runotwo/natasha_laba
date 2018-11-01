@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <div id="app">
+        {% verbatim %}
+        <div class="i, row cart_item" v-for="(item, i) in cart">
+            <div class="col-10">{{ item.good.name }}</div>
+            <button class="btn-cart" @click="deleteItem(i)">-</button>
+            {{ item.count }}
+            <button class="btn-cart" @click="addItem(i)">+</button>
+        </div>
+        {% endverbatim %}
+        <div class="row">
+            <input type="text" class="form-control col-10 qqq" id="city" placeholder="Введите город">
+            <input type="text" class="form-control col-10 qqq" id="street" placeholder="Введите улицу">
+            <input type="text" class="form-control col-10 qqq" id="house_number" placeholder="Введите номер дома">
+            <input type="text" class="form-control col-10 qqq" id="apartment_number" placeholder="Введите номер квартиры">
+            <input type="text" class="form-control col-10 qqq" id="index" placeholder="Введите индекс">
+            <button class="btn btn-primary" @click="confirmOrder">Подтвердить заказ</button>
+        </div>
+    </div>
+{% endblock %}

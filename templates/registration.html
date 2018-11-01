@@ -2,29 +2,30 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/registration.css' %}">
-<form >
-  <div class="container">
-    <h1>Регистрация</h1>
-    <p>Заполните форму, чтобы создать аккаунт.</p>
-    <hr>
+    <div>
+        <div class="container">
+            <h1>Регистрация</h1>
+            <p>Заполните форму, чтобы создать аккаунт.</p>
+            <hr>
 
-    <label for="email"><b>E-mail</b></label>
-    <input id="email" type="text" placeholder="Введите E-mail" name="email" required>
+            <label for="email"><b>E-mail</b></label>
+            <input id="email" type="text" placeholder="Введите E-mail" name="email" required>
 
-    <label for="password"><b>Пароль</b></label>
-    <input id="pass" type="password" placeholder="Введите пароль" name="password" required>
+            <label for="password"><b>Пароль</b></label>
+            <input id="pass" type="password" placeholder="Введите пароль" name="password" required>
 
-    <label for="psw-repeat"><b>Повторите пароль</b></label>
-    <input id="pass-repeat" type="password" placeholder="Повторите пароль" name="psw-repeat" required>
-    <hr>
+            <label for="psw-repeat"><b>Повторите пароль</b></label>
+            <input id="pass-repeat" type="password" placeholder="Повторите пароль" name="psw-repeat" required>
 
-    <p>Создавая аккаунт, вы принимаете наше <a href="#">пользовательское соглашение</a>.</p>
-    <button type="submit" class="registerbtn">Создать аккаунт</button>
-  </div>
+            <label for="name"><b>Имя</b></label>
+            <input id="name" type="text" placeholder="Имя" name="name" required>
 
-  <div class="container signin">
-    <p>У вас уже есть аккаунт? <a href="#">Войти</a>.</p>
-  </div>
-</form>
-    <script src="shop/static/js/"></script>
+            <label for="phonen"><b>Номер телефона</b></label>
+            <input id="phone" type="text" placeholder="Номер телефона" name="phonen" required>
+            <hr>
+
+            <p>Создавая аккаунт, вы принимаете наше <a href="#">пользовательское соглашение</a>.</p>
+            <button onclick="registrationSubmit()" class="registerbtn">Создать аккаунт</button>
+        </div>
+    </div>
 {% endblock %}

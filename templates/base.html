@@ -12,12 +12,17 @@
             <img src="https://via.placeholder.com/108x32" width="108px" height="32px" class="d-inline-block align-top"
                  alt="">
         </a>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.first_name }}.</span>
+        {% endif %}
+        <a href="/cart/">Корзина (<span id="nowItems"></span>)</a>
     </div>
 </nav>
 <div class="container">
     {% block content %}
     {% endblock %}
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

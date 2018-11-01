@@ -9,6 +9,7 @@ class Address(models.Model):
     street = models.CharField(verbose_name='Улица', max_length=255)
     house_number = models.PositiveIntegerField(verbose_name='Номер дома')
     apartment_number = models.PositiveIntegerField(verbose_name='Номер квартиры')
+    index = models.PositiveIntegerField(verbose_name='Индекс', null=True)
 
     class Meta:
         verbose_name = 'Адрес'
@@ -21,6 +22,7 @@ class Address(models.Model):
 class Order(models.Model):
     STATUS_CHOICES = (
         ('created', 'Создан'),
+        ('await', 'Ожидается оплата'),
         ('payed', 'Оплачен'),
         ('canceled', 'Отменен'),
         ('delivering', 'Доставляется'),

@@ -3,10 +3,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from . import settings
-from .views import index, registration, goods, good_page
+from .views import index, registration, goods, good_page, cart, order
 
 urlpatterns = [
     path('', index),
+    path('cart/', cart),
+    path('order/', order),
     path('goods/<id>/', good_page),
     path('goods/', goods),
     path('admin/', admin.site.urls),

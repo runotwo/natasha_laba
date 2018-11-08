@@ -127,6 +127,51 @@ function registrationSubmit() {
     }
 }
 
+function loginnSubmit() {
+    email = $('#email')[0].value;
+    pass = $('#pass')[0].value;
+    send = true;
+    if (!email) {
+        $('#email').addClass('border-danger');
+        $('#email').addClass('border');
+        send = false;
+    }
+    if (!pass) {
+        $('#pass').addClass('border-danger');
+        $('#pass').addClass('border');
+        send = false;
+    }
+    if (email) {
+        $('#email').removeClass('border-danger');
+        $('#email').removeClass('border')
+    }
+    if (pass) {
+        $('#pass').removeClass('border-danger');
+        $('#pass').removeClass('border')
+    }
+    if (send) {
+        axios({
+                method: 'post',
+                url: '/login/',
+                data: {
+                    email: email,
+                    pass: pass,
+                },
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            },
+        )
+            .then(function (response) {
+                window.location.replace(response.data.redirect)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+}
+
+
 $(function () {
     axios.get('/api/order/', {
         headers: {

@@ -1,8 +1,9 @@
-from django.core.paginator import Paginator
-from django.shortcuts import render_to_response, redirect
-from django.http import JsonResponse
-from django.contrib.auth import authenticate, login, models, logout
 import json
+
+from django.contrib.auth import authenticate, login, models, logout
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.shortcuts import render_to_response, redirect
 
 from goods.models import Category, Good
 from orders.models import Order, Address
@@ -101,3 +102,18 @@ def order(request):
 def lout(request):
     logout(request)
     return redirect('/')
+
+
+def lin(request):
+    if request.method == 'GET':
+        return render_to_response('login.html')
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        username = body.get('email')
+        password = body.get('pass')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'redirect': '/'})
+        else:
+            return JsonResponse({'error': 'Такого пользователя не существует'})

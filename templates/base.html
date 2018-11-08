@@ -13,11 +13,14 @@
                  alt="">
         </a>
         {% if user.is_authenticated %}
-        {% if user.first_name %}
-            <span>Welcome, {{ user.first_name }}.</span>
-        {% endif %}
+            {% if user.first_name %}
+                <span>Добро пожаловать, {{ user.first_name }}.</span>
+            {% endif %}
             <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
         {% endif %}
+
         <a href="/cart/">Корзина (<span id="nowItems"></span>)</a>
     </div>
 </nav>

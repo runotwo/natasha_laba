@@ -146,7 +146,7 @@ app = new Vue({
     el: '#app',
     data: {
         order: false,
-        delivery: true,
+        delivery: null,
         cart: []
     },
     mounted: function () {

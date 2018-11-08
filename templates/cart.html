@@ -15,8 +15,9 @@
         </div>
         {% endverbatim %}
         <div class="row" v-if="order">
-            <div v-if="delivery" class="row col-12">
-                <button class="btn btn-primary col-2 mt-2" @click="delivery=false" v-if="delivery">Я заберу сам</button>
+            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false" v-if="delivery===null">Я заберу сам</button>
+            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-if="delivery===null">Хочу доставку</button>
+            <div v-if="delivery===true" class="row col-12">
                 <input type="text" class="form-control col-12 qqq" id="city" placeholder="Введите город">
                 <input type="text" class="form-control col-12 qqq" id="street" placeholder="Введите улицу">
                 <input type="text" class="form-control col-12 qqq" id="house_number" placeholder="Введите номер дома">
@@ -24,8 +25,8 @@
                        placeholder="Введите номер квартиры">
                 <input type="text" class="form-control col-12 qqq" id="index" placeholder="Введите индекс">
             </div>
-            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=true" v-if="!delivery">Хочу доставку</button>
-            <button class="btn btn-primary col-2 mt-2" @click="confirmOrder">Подтвердить заказ</button>
+            <p v-if="delivery===false" class="row col-12 mt-2 h4">Ближайший пункт самовывоза находится по адресу: ул.Шотмана 11</p>
+            <button class="btn btn-primary col-2 mt-2" @click="confirmOrder" v-if="delivery!==null">Подтвердить заказ</button>
         </div>
     </div>
 {% endblock %}

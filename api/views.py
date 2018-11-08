@@ -116,7 +116,8 @@ class CartView(mixins.RetrieveModelMixin,
         order_item = OrderItem.objects.filter(order=last_order, good=good).last()
         if not order_item:
             order_item = OrderItem(order=last_order, good=good)
-        order_item.count += 1
+        if order_item.count < order_item.good.count:
+            order_item.count += 1
         order_item.save()
         return Response(self.get_serializer(last_order).data)
 

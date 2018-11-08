@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render_to_response, redirect
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login, models
+from django.contrib.auth import authenticate, login, models, logout
 import json
 
 from goods.models import Category, Good
@@ -80,17 +80,24 @@ def order(request):
     house_number = body.get('house_number')
     apartment_number = body.get('apartment_number')
     index = body.get('index')
-    address = Address.objects.create(
-        city=city,
-        street=street,
-        house_number=house_number,
-        apartment_number=apartment_number,
-        index=index
-    )
+
     last_order = Order.objects.filter(client=request.user).last()
     if not last_order or last_order.status != 'created':
         last_order = Order.objects.create(client=request.user)
-    last_order.address = address
+    if city:
+        address = Address.objects.create(
+            city=city,
+            street=street,
+            house_number=house_number,
+            apartment_number=apartment_number,
+            index=index
+        )
+        last_order.address = address
     last_order.status = 'await'
     last_order.save()
     return JsonResponse({'redirect': '/'})
+
+
+def lout(request):
+    logout(request)
+    return redirect('/')

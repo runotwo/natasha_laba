@@ -100,7 +100,8 @@ function registrationSubmit() {
     }
     if (pass != pass_repeat) {
         $('#pass-repeat').addClass('border-danger');
-        $('#pass-repeat').addClass('border')
+        $('#pass-repeat').addClass('border');
+        send = false;
     }
     if (send) {
         axios({
@@ -144,6 +145,8 @@ $(function () {
 app = new Vue({
     el: '#app',
     data: {
+        order: false,
+        delivery: true,
         cart: []
     },
     mounted: function () {
@@ -203,48 +206,69 @@ app = new Vue({
                 });
         },
         confirmOrder: function () {
-            city = $('#city')[0].value;
-            street = $('#street')[0].value;
-            house_number = $('#house_number')[0].value;
-            apartment_number = $('#apartment_number')[0].value;
-            index = $('#index')[0].value;
-            send = true;
-            if (!city) {
-                $('#city').addClass('border-danger');
-                $('#city').addClass('border');
-                send = false;
+            if (this.delivery) {
+                city = $('#city')[0].value;
+                street = $('#street')[0].value;
+                house_number = $('#house_number')[0].value;
+                apartment_number = $('#apartment_number')[0].value;
+                index = $('#index')[0].value;
+                send = true;
+                if (!city) {
+                    $('#city').addClass('border-danger');
+                    $('#city').addClass('border');
+                    send = false;
+                }
+                if (!street) {
+                    $('#street').addClass('border-danger');
+                    $('#street').addClass('border');
+                    send = false;
+                }
+                if (!house_number) {
+                    $('#house_number').addClass('border-danger');
+                    $('#house_number').addClass('border');
+                    send = false;
+                }
+                if (!apartment_number) {
+                    $('#apartment_number').addClass('border-danger');
+                    $('#apartment_number').addClass('border');
+                    send = false;
+                }
+                if (!index) {
+                    $('#index').addClass('border-danger');
+                    $('#index').addClass('border');
+                    send = false;
+                }
+                if (send) {
+                    axios({
+                            method: 'post',
+                            url: '/order/',
+                            data: {
+                                city: city,
+                                street: street,
+                                house_number: house_number,
+                                apartment_number: apartment_number,
+                                index: index
+                            },
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        },
+                    )
+                        .then(function (response) {
+                            alert('Заказ создан');
+                            window.location.replace(response.data.redirect)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                }
             }
-            if (!street) {
-                $('#street').addClass('border-danger');
-                $('#street').addClass('border');
-                send = false;
-            }
-            if (!house_number) {
-                $('#house_number').addClass('border-danger');
-                $('#house_number').addClass('border');
-                send = false;
-            }
-            if (!apartment_number) {
-                $('#apartment_number').addClass('border-danger');
-                $('#apartment_number').addClass('border');
-                send = false;
-            }
-            if (!index) {
-                $('#index').addClass('border-danger');
-                $('#index').addClass('border');
-                send = false;
-            }
-            if (send) {
+            else {
                 axios({
                         method: 'post',
                         url: '/order/',
-                        data: {
-                            city: city,
-                            street: street,
-                            house_number: house_number,
-                            apartment_number: apartment_number,
-                            index: index
-                        },
+                        data: {},
                         headers: {
                             'X-CSRFToken': getCookie('csrftoken')
                         }
@@ -257,7 +281,6 @@ app = new Vue({
                     .catch(function (error) {
                         console.log(error);
                     });
-
             }
         }
     }

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/lk.css' %}" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    Имя
+    <input type="text" class="form-control col-12 qqq" id="name" placeholder="Имя" value="{{ user.first_name }}">
+    Фамилия
+    <input type="text" class="form-control col-12 qqq" id="last" placeholder="Фамилия" value="{{ user.last_name }}">
+    Номер телефона
+    <input type="text" class="form-control col-12 qqq" id="phone" placeholder="Номер телефона" value="{{ config.number }}">
+    <button class="btn btn-primary col-2 mt-2" onclick="changeSubmit()">Изменить данные</button>
+{% endblock %}

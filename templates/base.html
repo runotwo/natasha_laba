@@ -13,10 +13,12 @@
                  alt="">
         </a>
         {% if user.is_authenticated %}
+            <span>
             {% if user.first_name %}
                 <span>Добро пожаловать, {{ user.first_name }}.</span>
             {% endif %}
-            <a href="/logout">Выйти</a>
+                <a href="/lk/"> Личный кабинет</a>
+            </span>
         {% else %}
             <a href="/login">Войти</a>
         {% endif %}

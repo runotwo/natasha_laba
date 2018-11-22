@@ -6,10 +6,10 @@
     Фамилия: {{ user.last_name }}<br>
     Email: {{ user.email }}<br>
     Номер телефона: {{ config.number }}<br>
+    Пол: {{ config.get_sex_display }}<br>
     <div class="row">
         <a href="/change" class="btn btn-primary col-2 mt-2">Изменить данные</a>
         <a href="/orders" class="btn btn-primary col-2 mt-2 ml-2">Мои заказы</a>
         <a href="/logout" class="btn btn-danger col-2 mt-2 ml-2">Выйти</a>
-
     </div>
 {% endblock %}

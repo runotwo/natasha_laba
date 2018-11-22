@@ -6,7 +6,7 @@
         <div class="alert alert-primary">
             <h3>Заказ №{{ order.id }}</h3>
             <b>Сумма к оплате:</b> {{ order.total_price }} руб. <br>
-            <b>Статус:</b> {{ order.status }}<br>
+            <b>Статус:</b> {{ order.get_status_display }}<br>
             <b>Тип доставки:</b> {% if order.address %}Доставка на дом{% else %}Самовывоз{% endif %}<br>
             <b>Состав заказа:</b><br>
             <ul>

@@ -131,7 +131,7 @@ def order(request):
     return JsonResponse({'redirect': '/'})
 
 def orders(request):
-    orders = Order.objects.filter(client=request.user).exclude(status='created')
+    orders = Order.objects.filter(client=request.user).exclude(status='created').order_by('-id')
     return render_to_response('orders.html', {'user': request.user, 'orders': orders})
 
 

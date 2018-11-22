@@ -44,6 +44,8 @@ class Order(models.Model):
         return self.orderitem_set.all().aggregate(price=models.Sum(models.F('good__price') * models.F('count'),
                                                                    output_field=models.FloatField()))['price']
 
+    total_price = property(get_total_price)
+
     def __str__(self):
         return f'{self.client}({self.id})'
 

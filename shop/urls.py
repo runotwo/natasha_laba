@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from . import settings
-from .views import index, registration, goods, good_page, cart, order, lout, lin, change, lk
+from .views import index, registration, goods, good_page, cart, order, lout, lin, change, lk, orders
 
 urlpatterns = [
                   path('', index),
@@ -18,4 +18,5 @@ urlpatterns = [
                   path('login/', lin),
                   path('change/', change),
                   path('lk/', lk),
+                  path('orders/', orders),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

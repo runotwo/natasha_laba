@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/lk.css' %}">
+    {% for order in orders %}
+        <div class="alert alert-primary">
+            <h3>Заказ №{{ order.id }}</h3>
+            <b>Сумма к оплате:</b> {{ order.total_price }} руб. <br>
+            <b>Статус:</b> {{ order.status }}<br>
+            <b>Тип доставки:</b> {% if order.address %}Доставка на дом{% else %}Самовывоз{% endif %}<br>
+            <b>Состав заказа:</b><br>
+            <ul>
+                {% for item in order.orderitem_set.all %}
+                    {{ item.good.name }} - {{ item.count }}шт.
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock %}

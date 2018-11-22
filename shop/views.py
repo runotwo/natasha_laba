@@ -130,6 +130,11 @@ def order(request):
     last_order.save()
     return JsonResponse({'redirect': '/'})
 
+def orders(request):
+    orders = Order.objects.filter(client=request.user).exclude(status='created')
+    return render_to_response('orders.html', {'user': request.user, 'orders': orders})
+
+
 
 def lout(request):
     logout(request)

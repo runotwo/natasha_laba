@@ -33,7 +33,7 @@ class Order(models.Model):
     status = models.CharField(verbose_name='Статус', max_length=30,
                               blank=False, choices=STATUS_CHOICES,
                               null=False, default='created')
-    address = models.ForeignKey(Address, verbose_name='Адрес', on_delete=models.SET_NULL, null=True, default=None)
+    address = models.ForeignKey(Address, verbose_name='Адрес', on_delete=models.SET_NULL, null=True, default=None, blank=True)
 
     class Meta:
         verbose_name = 'Заказ'

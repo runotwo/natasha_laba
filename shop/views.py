@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response, redirect
 
 from goods.models import Category, Good
 from orders.models import Order, Address
+from api.models import Config
 
 
 def index(request):
@@ -66,8 +67,34 @@ def registration(request):
         user = models.User(username=username, email=username, first_name=first_name)
         user.set_password(password)
         user.save()
+        config = Config(user=user, number=phone)
+        config.save()
         login(request, user)
         return JsonResponse({'redirect': '/'})
+
+
+def change(request):
+    if request.method == "GET":
+        if not request.user.is_authenticated:
+            return redirect('/login')
+        return render_to_response('change.html', {'user': request.user, 'config': request.user.config})
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        name = body.get('name')
+        last = body.get('last')
+        phone = body.get('phone')
+        request.user.config.number = phone
+        request.user.first_name = name
+        request.user.last_name = last
+        request.user.config.save()
+        request.user.save()
+        return JsonResponse({'redirect': '/lk'})
+
+
+def lk(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
+    return render_to_response('lk.html', {'user': request.user, 'config': Config.objects.get(user=request.user)})
 
 
 def cart(request):
@@ -93,7 +120,12 @@ def order(request):
             apartment_number=apartment_number,
             index=index
         )
+        request.user.config.address = address
+        request.user.config.save()
         last_order.address = address
+    for item in last_order.orderitem_set.all():
+        item.good.count -= item.count
+        item.good.save()
     last_order.status = 'await'
     last_order.save()
     return JsonResponse({'redirect': '/'})

@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div id="app">
         {% verbatim %}
         <div v-if="!order">
             <div class="i, row cart_item" v-for="(item, i) in cart">
-                <div class="col-10">{{ item.good.name }}</div>
+                <div class="col-8">{{ item.good.name }}</div>
                 <button class="btn-cart" @click="deleteItem(i)">-</button>
                 {{ item.count }}
                 <button class="btn-cart" @click="addItem(i)">+</button>
+                <div class="col-2">   {{ item.count * item.good.price }} руб.</div>
             </div>
+            <br><div v-if="cart != false">Итого: {{ amount }} руб.</div><br>
             <button class="btn btn-primary row mt-2" @click="order = true" v-if="cart != false">Оформить заказ</button>
         </div>
         {% endverbatim %}
         <div class="row" v-if="order">
-            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false" v-if="delivery===null">Я заберу сам</button>
-            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-if="delivery===null">Хочу доставку</button>
+            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false" v-bind:class="{ select: delivery===false }">Я заберу сам</button>
+            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-bind:class="{ select: delivery }">Хочу доставку</button>
             <div v-if="delivery===true" class="row col-12">
                 <input type="text" class="form-control col-12 qqq" id="city" placeholder="Введите город">
                 <input type="text" class="form-control col-12 qqq" id="street" placeholder="Введите улицу">

@@ -104,7 +104,6 @@ class CartView(mixins.RetrieveModelMixin,
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (authentication.SessionAuthentication,)
 
-
     def post(self, request):
         serializer = AddCartSerializer(data=request.data)
         if not serializer.is_valid():

@@ -208,6 +208,15 @@ app = new Vue({
                 console.log(error);
             });
     },
+    computed: {
+        amount: function () {
+            res = 0;
+            for (i = 0; i < this.cart.length; i++) {
+                res += this.cart[i].count * this.cart[i].good.price
+            }
+            return res
+        }
+    },
     methods: {
         deleteItem: function (id) {
             self = this;
@@ -243,6 +252,7 @@ app = new Vue({
                 },
             )
                 .then(function (response) {
+                    console.log(response.data);
                     self.cart = response.data.cart;
                     $('#nowItems').text(response.data.cart.length)
                 })
@@ -308,8 +318,7 @@ app = new Vue({
                         });
 
                 }
-            }
-            else {
+            } else {
                 axios({
                         method: 'post',
                         url: '/order/',
@@ -331,3 +340,57 @@ app = new Vue({
     }
 });
 
+function changeSubmit() {
+    email = $('#name')[0].value;
+    pass = $('#last')[0].value;
+    phone = $('#phone')[0].value;
+    send = true;
+    if (!email) {
+        $('#name').addClass('border-danger');
+        $('#name').addClass('border');
+        send = false;
+    }
+    if (!pass) {
+        $('#last').addClass('border-danger');
+        $('#last').addClass('border');
+        send = false;
+    }
+    if (!phone) {
+        $('#phone').addClass('border-danger');
+        $('#phone').addClass('border');
+        send = false;
+    }
+    if (email) {
+        $('#name').removeClass('border-danger');
+        $('#name').removeClass('border')
+    }
+    if (pass) {
+        $('#last').removeClass('border-danger');
+        $('#last').removeClass('border')
+    }
+    if (phone) {
+        $('#phone').removeClass('border-danger');
+        $('#phone').removeClass('border')
+    }
+    if (send) {
+        axios({
+                method: 'post',
+                url: '/change/',
+                data: {
+                    name: email,
+                    last: pass,
+                    phone: phone
+                },
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            },
+        )
+            .then(function (response) {
+                window.location.replace(response.data.redirect)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+}

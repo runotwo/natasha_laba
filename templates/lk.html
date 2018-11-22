@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/lk.css' %}" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+    Имя: {{ user.first_name }}<br>
+    Фамилия: {{ user.last_name }}<br>
+    Email: {{ user.email }}<br>
+    Номер телефона: {{ config.number }}<br>
+    <div class="row">
+        <a href="/change" class="btn btn-primary col-2 mt-2">Изменить данные</a>
+        <a href="/logout" class="btn btn-danger col-2 mt-2 ml-2">Выйти</a>
+
+    </div>
+{% endblock %}

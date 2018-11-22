@@ -11,7 +11,7 @@
             <b>Состав заказа:</b><br>
             <ul>
                 {% for item in order.orderitem_set.all %}
-                    {{ item.good.name }} - {{ item.count }}шт.
+                    {{ item.good.name }} - {{ item.count }}шт.<br>
                 {% endfor %}
             </ul>
         </div>

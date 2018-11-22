@@ -3,7 +3,7 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/lk.css' %}">
     {% for order in orders %}
-        <div class="alert alert-primary">
+        <div class="alert alert-primary mt-2">
             <h3>Заказ №{{ order.id }}</h3>
             <b>Сумма к оплате:</b> {{ order.total_price }} руб. <br>
             <b>Статус:</b> {{ order.get_status_display }}<br>

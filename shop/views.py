@@ -144,6 +144,11 @@ def orders(request):
     return render_to_response('orders.html', {'user': request.user, 'orders': orders})
 
 
+@allow_lazy_user
+def search(request):
+    pass
+
+
 def lout(request):
     logout(request)
     return redirect(to='/')

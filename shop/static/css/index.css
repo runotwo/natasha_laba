@@ -29,3 +29,7 @@
 .main .row{
     margin: 0;
 }
+
+p.col-7{
+    padding: 0;
+}

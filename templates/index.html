@@ -14,7 +14,13 @@
                      class="d-inline-block align-top" alt="">
             </a>
             <br><br>
-            <p class="h4">Хиты продаж</p>
+            <div class="row">
+                <p class="h4 col-7 mr-auto">Хиты продаж</p>
+                <div class="form-inline my-2 my-lg-0">{% csrf_token %}
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </div>
             {% for row in rows %}
                 <div class="row">
                     {% for good in row %}

@@ -4,12 +4,14 @@ from django.contrib.auth import authenticate, login, models, logout
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render_to_response, redirect
+from lazysignup.decorators import allow_lazy_user, require_nonlazy_user
 
+from api.models import Config
 from goods.models import Category, Good
 from orders.models import Order, Address
-from api.models import Config
 
 
+@allow_lazy_user
 def index(request):
     categories = Category.objects.all()
     goods = Good.objects.order_by('-id')
@@ -19,6 +21,7 @@ def index(request):
                               context={'categories': categories, 'rows': rows, 'qgood': goods[0], 'user': request.user})
 
 
+@allow_lazy_user
 def goods(request):
     goods = Good.objects.all()
     pg = int(request.GET.get('page', 1))
@@ -35,9 +38,10 @@ def goods(request):
                                        'user': request.user})
 
 
+@allow_lazy_user
 def good_page(request, id):
     if not request.user.is_authenticated:
-        return redirect('/registration')
+        return redirect(to='/registration')
     good = Good.objects.get(id=id)
     last_order = Order.objects.filter(client=request.user).last()
     if not last_order or last_order.status != 'created':
@@ -49,6 +53,7 @@ def good_page(request, id):
                               {'good': good, 'order': last_order, 'now_item': now_item, 'user': request.user})
 
 
+@allow_lazy_user
 def registration(request):
     if request.method == "GET":
         return render_to_response('registration.html')
@@ -73,10 +78,11 @@ def registration(request):
         return JsonResponse({'redirect': '/'})
 
 
+@require_nonlazy_user(to='/login')
 def change(request):
     if request.method == "GET":
         if not request.user.is_authenticated:
-            return redirect('/login')
+            return redirect(to='/login')
         return render_to_response('change.html', {'user': request.user, 'config': request.user.config})
     if request.method == 'POST':
         body = json.loads(request.body)
@@ -91,16 +97,17 @@ def change(request):
         return JsonResponse({'redirect': '/lk'})
 
 
+@require_nonlazy_user(to='/login')
 def lk(request):
-    if not request.user.is_authenticated:
-        return redirect('/login')
     return render_to_response('lk.html', {'user': request.user, 'config': Config.objects.get(user=request.user)})
 
 
+@allow_lazy_user
 def cart(request):
     return render_to_response('cart.html', {'user': request.user})
 
 
+@allow_lazy_user
 def order(request):
     body = json.loads(request.body)
     city = body.get('city')
@@ -130,15 +137,16 @@ def order(request):
     last_order.save()
     return JsonResponse({'redirect': '/'})
 
+
+@allow_lazy_user
 def orders(request):
     orders = Order.objects.filter(client=request.user).exclude(status='created').order_by('-id')
     return render_to_response('orders.html', {'user': request.user, 'orders': orders})
 
 
-
 def lout(request):
     logout(request)
-    return redirect('/')
+    return redirect(to='/')
 
 
 def lin(request):
@@ -153,4 +161,4 @@ def lin(request):
             login(request, user)
             return JsonResponse({'redirect': '/'})
         else:
-            return JsonResponse({'error': 'Такого пользователя не существует'})
+            return JsonResponse({'error': 'Такого пользователя не существует'}, status=400)

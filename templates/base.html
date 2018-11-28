@@ -1,3 +1,4 @@
+{% load i18n lazysignup_tags %}
 {% load static %}
 <head>
     <title>SOVA</title>
@@ -12,7 +13,7 @@
             <img src="https://via.placeholder.com/108x32" width="108px" height="32px" class="d-inline-block align-top"
                  alt="">
         </a>
-        {% if user.is_authenticated %}
+        {% if user.first_name %}
             <span>
             {% if user.first_name %}
                 <span>Добро пожаловать, {{ user.first_name }}.</span>

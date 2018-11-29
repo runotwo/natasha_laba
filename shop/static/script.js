@@ -262,12 +262,35 @@ app = new Vue({
         },
         confirmOrder: function () {
             if (this.delivery) {
+                send = true;
+                if (window.is_lazy) {
+                    fname = $('#name')[0].value;
+                    phone = $('#phone')[0].value;
+                    send = true;
+                    if (!fname) {
+                        $('#name').addClass('border-danger');
+                        $('#name').addClass('border');
+                        send = false;
+                    }
+                    if (!phone) {
+                        $('#phone').addClass('border-danger');
+                        $('#phone').addClass('border');
+                        send = false;
+                    }
+                    if (fname) {
+                        $('#name').removeClass('border-danger');
+                        $('#name').removeClass('border')
+                    }
+                    if (phone) {
+                        $('#phone').removeClass('border-danger');
+                        $('#phone').removeClass('border')
+                    }
+                }
                 city = $('#city')[0].value;
                 street = $('#street')[0].value;
                 house_number = $('#house_number')[0].value;
                 apartment_number = $('#apartment_number')[0].value;
                 index = $('#index')[0].value;
-                send = true;
                 if (!city) {
                     $('#city').addClass('border-danger');
                     $('#city').addClass('border');
@@ -298,6 +321,8 @@ app = new Vue({
                             method: 'post',
                             url: '/order/',
                             data: {
+                                name: fname,
+                                phone: phone,
                                 city: city,
                                 street: street,
                                 house_number: house_number,
@@ -319,10 +344,37 @@ app = new Vue({
 
                 }
             } else {
-                axios({
+                send = true;
+                if (window.is_lazy) {
+                    fname = $('#name')[0].value;
+                    phone = $('#phone')[0].value;
+                    send = true;
+                    if (!fname) {
+                        $('#name').addClass('border-danger');
+                        $('#name').addClass('border');
+                        send = false;
+                    }
+                    if (!phone) {
+                        $('#phone').addClass('border-danger');
+                        $('#phone').addClass('border');
+                        send = false;
+                    }
+                    if (fname) {
+                        $('#name').removeClass('border-danger');
+                        $('#name').removeClass('border')
+                    }
+                    if (phone) {
+                        $('#phone').removeClass('border-danger');
+                        $('#phone').removeClass('border')
+                    }
+                }
+                if (send) axios({
                         method: 'post',
                         url: '/order/',
-                        data: {},
+                        data: {
+                            name: fname,
+                            phone: phone,
+                        },
                         headers: {
                             'X-CSRFToken': getCookie('csrftoken')
                         }
@@ -396,5 +448,5 @@ function changeSubmit() {
 }
 
 function searchGoods() {
-    window.location.href = '/search?string='+$('#search_input').val();
+    window.location.href = '/search?string=' + $('#search_input').val();
 }

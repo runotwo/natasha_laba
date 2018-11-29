@@ -10,15 +10,35 @@
                 <button class="btn-cart" @click="deleteItem(i)">-</button>
                 {{ item.count }}
                 <button class="btn-cart" @click="addItem(i)">+</button>
-                <div class="col-2">   {{ item.count * item.good.price }} руб.</div>
+                <div class="col-2"> {{ item.count * item.good.price }} руб.</div>
             </div>
-            <br><div v-if="cart != false">Итого: {{ amount }} руб.</div><br>
+            <br>
+            <div v-if="cart != false">Итого: {{ amount }} руб.</div>
+            <br>
             <button class="btn btn-primary row mt-2" @click="order = true" v-if="cart != false">Оформить заказ</button>
         </div>
         {% endverbatim %}
         <div class="row" v-if="order">
-            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false" v-bind:class="{ select: delivery===false }">Я заберу сам</button>
-            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-bind:class="{ select: delivery }">Хочу доставку</button>
+            <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false"
+                    v-bind:class="{ select: delivery===false }">Я заберу сам
+            </button>
+            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-bind:class="{ select: delivery }">Хочу
+                доставку
+            </button>
+            <div v-if="delivery!==null" class="row col-12">
+                {% if is_lazy %}
+                    <input type="text" class="form-control col-12 qqq" id="name" placeholder="Введите имя">
+                    <input type="text" class="form-control col-12 qqq" id="phone"
+                           placeholder="Введите номер телефона">
+                    <script>
+                        window.is_lazy = true;
+                    </script>
+                {% else %}
+                    <script>
+                        window.is_lazy = false;
+                    </script>
+                {% endif %}
+            </div>
             <div v-if="delivery===true" class="row col-12">
                 <input type="text" class="form-control col-12 qqq" id="city" placeholder="Введите город">
                 <input type="text" class="form-control col-12 qqq" id="street" placeholder="Введите улицу">
@@ -27,8 +47,11 @@
                        placeholder="Введите номер квартиры">
                 <input type="text" class="form-control col-12 qqq" id="index" placeholder="Введите индекс">
             </div>
-            <p v-if="delivery===false" class="row col-12 mt-2 h4">Ближайший пункт самовывоза находится по адресу: ул.Шотмана 11</p>
-            <button class="btn btn-primary col-2 mt-2" @click="confirmOrder" v-if="delivery!==null">Подтвердить заказ</button>
+            <p v-if="delivery===false" class="row col-12 mt-2 h4">Ближайший пункт самовывоза находится по адресу:
+                ул.Шотмана 11</p>
+            <button class="btn btn-primary col-2 mt-2" @click="confirmOrder" v-if="delivery!==null">Подтвердить заказ
+            </button>
         </div>
     </div>
+
 {% endblock %}

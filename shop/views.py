@@ -18,7 +18,8 @@ def index(request):
     page = Paginator(Paginator(goods, 8).page(1), 4)
     rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]
     return render_to_response('index.html',
-                              context={'categories': categories, 'rows': rows, 'user': request.user})
+                              context={'categories': categories, 'rows': rows, 'user': request.user,
+                                       'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
@@ -35,7 +36,8 @@ def goods(request):
     rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]
     return render_to_response('goods.html',
                               context={'categories': categories, 'rows': rows, 'next': pages.num_pages > 1,
-                                       'user': request.user})
+                                       'user': request.user,
+                                       'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
@@ -50,7 +52,8 @@ def good_page(request, id):
     if last_order:
         now_item = last_order.orderitem_set.filter(good_id=id).last()
     return render_to_response('good_page.html',
-                              {'good': good, 'order': last_order, 'now_item': now_item, 'user': request.user})
+                              {'good': good, 'order': last_order, 'now_item': now_item, 'user': request.user,
+                               'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
@@ -83,7 +86,8 @@ def change(request):
     if request.method == "GET":
         if not request.user.is_authenticated:
             return redirect(to='/login')
-        return render_to_response('change.html', {'user': request.user, 'config': request.user.config})
+        return render_to_response('change.html', {'user': request.user, 'config': request.user.config,
+                                                  'is_lazy': hasattr(request.user, 'lazyuser')})
     if request.method == 'POST':
         body = json.loads(request.body)
         name = body.get('name')
@@ -99,12 +103,14 @@ def change(request):
 
 @require_nonlazy_user(to='/login')
 def lk(request):
-    return render_to_response('lk.html', {'user': request.user, 'config': Config.objects.get(user=request.user)})
+    return render_to_response('lk.html', {'user': request.user, 'config': Config.objects.get(user=request.user),
+                                          'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
 def cart(request):
-    return render_to_response('cart.html', {'user': request.user})
+    return render_to_response('cart.html', {'user': request.user,
+                                            'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
@@ -115,7 +121,8 @@ def order(request):
     house_number = body.get('house_number')
     apartment_number = body.get('apartment_number')
     index = body.get('index')
-
+    name = body.get('name')
+    phone = body.get('phone')
     last_order = Order.objects.filter(client=request.user).last()
     if not last_order or last_order.status != 'created':
         last_order = Order.objects.create(client=request.user)
@@ -130,6 +137,12 @@ def order(request):
         request.user.config.address = address
         request.user.config.save()
         last_order.address = address
+    if name:
+        request.user.first_name = name
+        request.user.save()
+        config, _ = Config.objects.get_or_create(user=request.user)
+        config.number = phone
+        config.save()
     for item in last_order.orderitem_set.all():
         item.good.count -= item.count
         item.good.save()
@@ -141,7 +154,8 @@ def order(request):
 @allow_lazy_user
 def orders(request):
     orders = Order.objects.filter(client=request.user).exclude(status='created').order_by('-id')
-    return render_to_response('orders.html', {'user': request.user, 'orders': orders})
+    return render_to_response('orders.html', {'user': request.user, 'orders': orders,
+                                              'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 @allow_lazy_user
@@ -153,7 +167,8 @@ def search(request):
     rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]
     return render_to_response('goods.html',
                               context={'categories': categories, 'rows': rows, 'next': False, 'user': request.user,
-                                       'search_string': string})
+                                       'search_string': string,
+                                       'is_lazy': hasattr(request.user, 'lazyuser')})
 
 
 def lout(request):

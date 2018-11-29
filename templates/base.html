@@ -13,7 +13,7 @@
             <img src="https://via.placeholder.com/108x32" width="108px" height="32px" class="d-inline-block align-top"
                  alt="">
         </a>
-        {% if user.first_name %}
+        {% if not is_lazy %}
             <span>
             {% if user.first_name %}
                 <span>Добро пожаловать, {{ user.first_name }}.</span>

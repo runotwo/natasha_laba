@@ -9,7 +9,7 @@ chardet==3.0.4
 contextlib2==0.5.5
 coreapi==2.3.3
 coreschema==0.0.4
-Django-2.1.3
+Django==2.1.3
 django-daterange-filter==1.3.0
 django-extensions==2.1.0
 django-tinymce==2.7.0
@@ -80,4 +80,4 @@ pymorphy2==0.8
 backports.functools-lru-cache==1.3
 intervaltree==2.1.0
 sortedcontainers
-django-lazysignup-2.0.0
+django-lazysignup==2.0.0

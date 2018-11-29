@@ -17,8 +17,8 @@
             <div class="row">
                 <p class="h4 col-7 mr-auto">Хиты продаж</p>
                 <div class="form-inline my-2 my-lg-0">{% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search" id="search_input">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search_btn" onclick="searchGoods()">Поиск</button>
                 </div>
             </div>
             {% for row in rows %}

@@ -9,6 +9,13 @@
             {% endfor %}
         </div>
         <div class="col-9 main">
+            {% if search_string %}
+                <div class="form-inline my-2 my-lg-0 mt-2">{% csrf_token %}
+                    <input class="form-control mr-sm-2 col" type="search" placeholder="Поиск" aria-label="Search" id="search_input" value="{{ search_string }}">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search_btn" onclick="searchGoods()">Поиск
+                    </button>
+                </div>
+            {% endif %}
             {% for row in rows %}
                 <div class="row">
                     {% for good in row %}

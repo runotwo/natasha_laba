@@ -18,7 +18,7 @@ def index(request):
     page = Paginator(Paginator(goods, 8).page(1), 4)
     rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]
     return render_to_response('index.html',
-                              context={'categories': categories, 'rows': rows, 'qgood': goods[0], 'user': request.user})
+                              context={'categories': categories, 'rows': rows, 'user': request.user})
 
 
 @allow_lazy_user
@@ -146,7 +146,14 @@ def orders(request):
 
 @allow_lazy_user
 def search(request):
-    pass
+    string = (request.GET.get('string') or '').lower()
+    items = Good.objects.filter(name__icontains=string)
+    categories = Category.objects.all()
+    page = Paginator(items, 4)
+    rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]
+    return render_to_response('goods.html',
+                              context={'categories': categories, 'rows': rows, 'next': False, 'user': request.user,
+                                       'search_string': string})
 
 
 def lout(request):

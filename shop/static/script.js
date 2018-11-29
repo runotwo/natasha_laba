@@ -394,3 +394,7 @@ function changeSubmit() {
             });
     }
 }
+
+function searchGoods() {
+    window.location.href = '/search?string='+$('#search_input').val();
+}

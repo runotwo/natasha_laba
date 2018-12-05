@@ -20,10 +20,9 @@
         {% endverbatim %}
         <div class="row" v-if="order">
             <button class="btn btn-primary col-2 mt-2 mr-2" @click="delivery=false"
-                    v-bind:class="{ select: delivery===false }">Я заберу сам
+                    v-bind:class="{ select: delivery===false }">Самовывоз
             </button>
-            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-bind:class="{ select: delivery }">Хочу
-                доставку
+            <button class="btn btn-primary col-2 mt-2" @click="delivery=true" v-bind:class="{ select: delivery }">Доставка
             </button>
             <div v-if="delivery!==null" class="row col-12">
                 {% if is_lazy %}

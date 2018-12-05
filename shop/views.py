@@ -162,6 +162,12 @@ def orders(request):
 def search(request):
     string = (request.GET.get('string') or '').lower()
     items = Good.objects.filter(name__icontains=string)
+    n_items = Good.objects.filter(name__icontains=string.capitalize())
+    items = items.union(n_items)
+    n_items = Good.objects.filter(category__name__icontains=string.capitalize())
+    items = items.union(n_items)
+    n_items = Good.objects.filter(category__name__icontains=string)
+    items = items.union(n_items).distinct()
     categories = Category.objects.all()
     page = Paginator(items, 4)
     rows = [page.page(num).object_list for num in range(1, page.num_pages + 1)]

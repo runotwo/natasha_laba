@@ -30,6 +30,7 @@ class Good(models.Model):
     image = models.ImageField(blank=False, null=True, upload_to=get_file_path, verbose_name='Изображение')
     price = models.PositiveIntegerField(default=10, verbose_name='Стоимость')
     description = models.CharField(max_length=500, verbose_name='Описание', default='')
+    cost_price = models.PositiveIntegerField(default=8, verbose_name='Стоимость')
 
     class Meta:
         verbose_name = 'Товар'

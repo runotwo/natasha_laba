@@ -34,6 +34,7 @@ class Order(models.Model):
                               blank=False, choices=STATUS_CHOICES,
                               null=False, default='created')
     address = models.ForeignKey(Address, verbose_name='Адрес', on_delete=models.SET_NULL, null=True, default=None, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Заказ'

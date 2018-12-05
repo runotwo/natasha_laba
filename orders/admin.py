@@ -21,7 +21,7 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('client', 'status', 'address', 'created_at')
     list_filter = ('status', )
-
+    change_list_template = "orders_admin.html"
     inlines = [OrderItemInline]
 
 

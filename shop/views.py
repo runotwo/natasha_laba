@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.contrib.auth import authenticate, login, models, logout
@@ -8,7 +9,7 @@ from lazysignup.decorators import allow_lazy_user, require_nonlazy_user
 
 from api.models import Config
 from goods.models import Category, Good
-from orders.models import Order, Address
+from orders.models import Order, Address, OrderItem
 
 
 @allow_lazy_user
@@ -195,3 +196,30 @@ def lin(request):
             return JsonResponse({'redirect': '/'})
         else:
             return JsonResponse({'error': 'Такого пользователя не существует'}, status=400)
+
+
+def analytics(request):
+    return render_to_response('analytics.html')
+
+
+def analytics_items(request):
+    queryset = OrderItem.objects.all()
+    fmt = '%d.%m.%y'
+    date_gte = request.GET.get('date__gte')
+    date_lte = request.GET.get('date__lte')
+    if date_gte:
+        date_gte = datetime.datetime.strptime(date_gte, fmt)
+        if not date_lte:
+            queryset = queryset.filter(order__date=date_gte)
+        else:
+            queryset = queryset.filter(order__date__gte=date_gte)
+    if date_lte:
+        date_lte = datetime.datetime.strptime(date_lte, fmt)
+        queryset = queryset.filter(order__date__lte=date_lte)
+    from django.db import models
+    res = list(queryset.values('good__name').annotate(
+        sum_val=models.Sum(
+            models.F('good__price') * models.F('count') - models.F('good__cost_price') * models.F('count'))).annotate(
+        sum_price=models.Sum(models.F('good__price') * models.F('count'))).annotate(
+        sum_count=models.Sum('count')))
+    return JsonResponse(res, safe=False)

@@ -20,7 +20,7 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('client', 'status', 'address', 'created_at')
-    list_filter = ('status', )
+    list_filter = ('status', 'client')
     change_list_template = "orders_admin.html"
     inlines = [OrderItemInline]
 

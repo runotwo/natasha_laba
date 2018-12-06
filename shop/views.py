@@ -222,4 +222,4 @@ def analytics_items(request):
             models.F('good__price') * models.F('count') - models.F('good__cost_price') * models.F('count'))).annotate(
         sum_price=models.Sum(models.F('good__price') * models.F('count'))).annotate(
         sum_count=models.Sum('count')))
-    return JsonResponse(res, safe=False)
+    return JsonResponse(sorted(res, key=lambda x: x['sum_val'], reverse=True), safe=False)

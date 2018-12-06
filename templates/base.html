@@ -19,8 +19,7 @@
             {% if user.first_name %}
                 <span>Добро пожаловать, {{ user.first_name }}.</span>
             {% endif %}
-                {% if not request.user|has_group:"Владелец" %}
-
+                {% if not request.user|has_group:"Владелец" and not request.user|has_group:"Продавец" and not request.user|has_group:"Тех. Админ" %}
                     <a href="/lk/"> Личный кабинет</a>
                 {% endif %}
             </span>

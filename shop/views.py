@@ -210,12 +210,12 @@ def analytics_items(request):
     if date_gte:
         date_gte = datetime.datetime.strptime(date_gte, fmt)
         if not date_lte:
-            queryset = queryset.filter(order__date=date_gte)
+            queryset = queryset.filter(order__created_at=date_gte)
         else:
-            queryset = queryset.filter(order__date__gte=date_gte)
+            queryset = queryset.filter(order__created_at__gte=date_gte)
     if date_lte:
         date_lte = datetime.datetime.strptime(date_lte, fmt)
-        queryset = queryset.filter(order__date__lte=date_lte)
+        queryset = queryset.filter(order__created_at__lte=date_lte)
     from django.db import models
     res = list(queryset.values('good__name').annotate(
         sum_val=models.Sum(

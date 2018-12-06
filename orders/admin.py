@@ -19,7 +19,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    search_fields = ('client__username',)
+    search_fields = ('client__username', 'client__first_name', 'client__last_name')
     list_display = ('client', 'status', 'address', 'created_at')
     list_filter = ('status',)
     change_list_template = "orders_admin.html"

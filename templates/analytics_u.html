@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитика</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/vouchers.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/daterangepicker.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/avangard_fav.png' %}"/>
+    <style>
+        .bprint {
+            background: url({% static 'img/icon_Printer.png' %}) no-repeat 15px 14px;
+        }
+
+        .bget {
+            background: url({% static 'img/icon_Exit.png' %}) no-repeat 15px 14px;
+        }
+
+        .bprint.active {
+            background: url({% static 'img/icon_Printer_color.png' %}) no-repeat 15px 14px;
+        }
+
+        .bget.active {
+            background: url({% static 'img/icon_Exit_color.png' %}) no-repeat 15px 14px;
+        }
+
+        * {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        input#searchInput {
+            width: 230px;
+        }
+
+        div.progress-bar {
+            background-color: #8bc540;
+            height: 100%;
+        }
+
+        div.progress {
+            background-color: #eeeeee;
+            width: 500px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="Modal" class="modal hidden">
+    <div class="container">
+        <div class="progress center-block">
+            <div class="progress-bar" role="progressbar" id="prbar" style="width: 0%" aria-valuenow="25"
+                 aria-valuemin="0"
+                 aria-valuemax="100"></div>
+        </div>
+        <div class="center-block font-3 font-weight-bold down center-block">Загружаю...</div>
+    </div>
+</div>
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <div class="container">
+        <a class="navbar-brand" href="">
+            <img src="https://via.placeholder.com/108x32" width="108px" height="32px" class="d-inline-block align-top"
+                 alt="">
+        </a>
+    </div>
+</nav>
+<div class="container main-body">
+    <span class="font-1 font-weight-bold">Фильтр</span>
+    <div class="row">
+        <div class="col-2">
+            <button class="btn-custom btn dropdown-toggle menu-button" name="daterange" type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Календарь
+            </button>
+        </div>
+    </div>
+
+    <span class="font-2 font-weight-bold ">Отчет по пользователям<span class="light-text" id="filters-details"></span></span>
+
+    <div class="col-12" id="table">
+        <div class="t-row row font-3 font-weight-bold h-row" onclick="mainSelect()">
+
+            <div class="col-3 cell ">Имя</div>
+            <div class="col-3 cell ">Номер телефона</div>
+            <div class="col-3 cell ">Всего заказов</div>
+            <div class="col-3 cell ">Общая сумма заказов</div>
+        </div>
+        <div id="elems">
+
+        </div>
+        <div class="hidden font-3 col-12 text-center" id="not-found">К сожалению мы не смогли ничего найти по заданным
+            Вами параметрам
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.3/moment.min.js"></script>
+
+<script type="text/javascript" src="{% static 'js/vdatepicker.js' %}"></script>
+<script type="text/jsx" src="{% static 'js/vouchers_u.js' %}"></script>
+</body>
+</html>

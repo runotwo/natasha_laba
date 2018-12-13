@@ -23,37 +23,6 @@ class GoodView(ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
-class NewUser(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = UserCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            data = serializer.data
-
-            # Some data preprocessing
-            data['email'] = data['email'].lower()
-            data['username'] = data['email']
-            data['first_name'] = data['name']
-            del data['name']
-
-            # Check if user already exists
-            user_qs = User.objects.filter(username=data['email'], email=data['email'])
-            if user_qs.exists():
-                return Response(
-                    data={'status': 'Error', 'error': 'Пользователь с такими данными уже существует'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            user = User.objects.create_user(**data)
-            user.save()
-            token = Token.objects.create(user=user)
-            return Response(data={'status': 'Ok', 'name': user.first_name, 'token': token.key},
-                            status=status.HTTP_200_OK)
-        else:
-            return Response(data={'status': 'Error', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class GetToken(ObtainAuthToken):
     serializer_class = GetTokenSerializer
 

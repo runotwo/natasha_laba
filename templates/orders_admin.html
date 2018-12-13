@@ -4,7 +4,10 @@
 {% block object-tools-items %}
     {% if request.user|has_group:"Владелец" %}
         <li>
-            <a href="/analytics" target="_blank">Посмотреть статистику</a>
+            <a href="/analytics" target="_blank">Посмотреть статистику заказов</a>
+        </li>
+        <li>
+            <a href="/analytics_users" target="_blank">Посмотреть статистику пользователей</a>
         </li>
     {% endif %}
     {{ block.super }}

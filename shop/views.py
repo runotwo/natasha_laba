@@ -223,3 +223,34 @@ def analytics_items(request):
         sum_price=models.Sum(models.F('good__price') * models.F('count'))).annotate(
         sum_count=models.Sum('count')))
     return JsonResponse(sorted(res, key=lambda x: x['sum_val'], reverse=True), safe=False)
+
+
+def analytics_u(request):
+    return render_to_response('analytics_u.html')
+
+
+def analytics_u_items(request):
+    queryset = Order.objects.all()
+    fmt = '%d.%m.%y'
+    date_gte = request.GET.get('date__gte')
+    date_lte = request.GET.get('date__lte')
+    if date_gte:
+        date_gte = datetime.datetime.strptime(date_gte, fmt).astimezone(datetime.timezone.utc)
+        if not date_lte:
+            queryset = queryset.filter(created_at=date_gte)
+        else:
+            queryset = queryset.filter(created_at__gte=date_gte)
+    if date_lte:
+        date_lte = datetime.datetime.strptime(date_lte, fmt).astimezone(datetime.timezone.utc)
+        queryset = queryset.filter(created_at__lte=date_lte)
+    from django.db import models
+    res = {}
+    for order in queryset:
+        name = order.client.get_full_name()
+        number = order.client.config.number
+        total = order.orderitem_set.aggregate(s=models.Sum(models.F('good__price') * models.F('count')))['s'] or 0
+        if not res.get(name):
+            res[name] = {'name': name, 'number': number, 'total': 0, 'count': 0}
+        res[name]['total'] += total
+        res[name]['count'] += 1 if total else 0
+    return JsonResponse(sorted(res.values(), key=lambda x: x['total'], reverse=True), safe=False)

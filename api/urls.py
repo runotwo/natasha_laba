@@ -1,9 +1,8 @@
 from django.conf.urls import url
 
-from api.views import (GoodView, NewUser, GetToken, OrderView, CartView)
+from api.views import (GoodView, GetToken, OrderView, CartView)
 
 urlpatterns = [
-    url(r'^new_user/$', NewUser.as_view(), name='register_new_user'),
     url(r'^get_token/$', GetToken.as_view(), name='get_token'),
     url(r'^items/$', GoodView.as_view({'get': 'list'})),
     url(r'^items/(?P<pk>[a-z0-9]+)/?$', GoodView.as_view({'get': 'retrieve'})),

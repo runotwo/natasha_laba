@@ -53,7 +53,7 @@ six==1.11.0
 sorl-thumbnail==12.4.1
 ua-parser==0.8.0
 uritemplate==3.0.0
-urllib3==1.22
+urllib3==1.26.5
 user-agents==1.1.0
 uuid==1.30
 viberbot==1.0.11
